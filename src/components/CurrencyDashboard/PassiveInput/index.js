@@ -4,15 +4,15 @@ import {setActiveInputIdAction, setActiveInputValueAction} from "../../../redux/
 import CurrencyService from "../../../services/currencyService";
 import {setActiveCurrencyAction} from "../../../redux/currencyReducer";
 import {addSelectsValueAction} from "../../../redux/selectsReducer";
+import {MenuItem, Select, TextField} from "@material-ui/core";
 
 const currencyService = new CurrencyService();
 
-const SelectWidget = ({rates, inputID, activeCurrency, activeValue}) => {
+const PassiveSelectWidget = ({rates, inputID, activeCurrency, activeValue}) => {
 
     const dispatch = useDispatch();
 
     const selectsValues = useSelector(({selects}) => selects.selectsValues)
-    console.log(selectsValues[inputID])
     const [selectValue, setSelectValue] = useState(selectsValues[inputID] || 'USD');
     const [ratio, setRatio] = useState(1);
     const [inputValue, setInputValue] = useState(activeValue * ratio);
@@ -49,20 +49,19 @@ const SelectWidget = ({rates, inputID, activeCurrency, activeValue}) => {
     }, [selectValue, activeValue, activeCurrency])
 
     useEffect(() => {
-                console.log('passive component did unmount with select value:', selectValue)
-                dispatch(addSelectsValueAction({[inputID]:selectValue}))
+        dispatch(addSelectsValueAction({[inputID]:selectValue}))
     }, [selectValue])
 
     return (
         <div>
-            <select name="" id="" value={selectValue} onChange={selectChangeHandler}>
+            <Select name="" id="" value={selectValue} onChange={selectChangeHandler}>
                 {
                     rates.map((r, i) => {
-                        return <option key={i} value={r.name}>{r.name}</option>
+                        return <MenuItem key={i} value={r.name}>{r.name}</MenuItem>
                     })
                 }
-            </select>
-            <input
+            </Select>
+            <TextField
                 type="text"
                 onChange={inputChangeHandler}
                 onClick={inputClickHandler}
@@ -73,4 +72,4 @@ const SelectWidget = ({rates, inputID, activeCurrency, activeValue}) => {
     );
 };
 
-export default SelectWidget;
+export default PassiveSelectWidget;

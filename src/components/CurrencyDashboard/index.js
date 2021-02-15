@@ -2,14 +2,11 @@ import React, {useEffect, useState} from 'react';
 import s from './styles.module.scss'
 import CurrencyService from "../../services/currencyService";
 import {useDispatch, useSelector} from "react-redux";
-import SelectWidget from "./SelectInput";
+import PassiveSelectWidget from "./PassiveInput";
 import ActiveSelectWidget from "./ActiveInput";
 
-const currencyService = new CurrencyService();
 
 const CurrencyDashboard = () => {
-    const dispatch = useDispatch();
-
     const currenciesRates = useSelector(({currency}) => currency.allRates)
     const storeActiveId = useSelector(({inputs}) => inputs.activeInputID);
     const activeValue = useSelector(({inputs}) => inputs.activeInputValue);
@@ -41,7 +38,7 @@ const CurrencyDashboard = () => {
 
                     :
 
-                    <SelectWidget
+                    <PassiveSelectWidget
                         key={i}
                         rates={currenciesRates}
                         inputID={inputID}

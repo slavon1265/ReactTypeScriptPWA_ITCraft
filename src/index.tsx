@@ -1,12 +1,36 @@
-import React from 'react';
+import React, {createContext} from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import firebase from "firebase";
+import 'firebase/firestore'
+import 'firebase/auth'
 // import reportWebVitals from './reportWebVitals';
+
+
+// Initialize Firebase
+firebase.initializeApp({
+    apiKey: "AIzaSyB_S9XSyY00o_B8L1I_pVvlZHzpt17U2yc",
+    authDomain: "curerncy-exchange-service.firebaseapp.com",
+    projectId: "curerncy-exchange-service",
+    storageBucket: "curerncy-exchange-service.appspot.com",
+    messagingSenderId: "225993983402",
+    appId: "1:225993983402:web:332a5105150ad85bc957d3",
+    measurementId: "G-2L2P9C5861"
+});
+
+export const Context = createContext({});
+
+const auth = firebase.auth();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <Context.Provider value={{
+          firebase,
+          auth
+      }}>
+          <App />
+      </Context.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

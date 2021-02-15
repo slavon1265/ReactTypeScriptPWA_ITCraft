@@ -1,5 +1,5 @@
 import CurrencyService from "../../services/currencyService";
-import {INITIAL_BASE_CURRENCY} from "../../utils/constants";
+import {INITIAL_BASE_CURRENCY} from "../../utils/consts";
 import {setAllRatesAction, setRatioAction} from "../currencyReducer";
 
 const currencyService = new CurrencyService();

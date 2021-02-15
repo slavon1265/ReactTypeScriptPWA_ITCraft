@@ -2,7 +2,7 @@ import {
     SET_ACTIVE_CURRENCY,
     SET_ACTIVE_INPUT_ID,
     SET_ACTIVE_INPUT_VALUE, SET_EXCHANGE_CURRENCY,
-} from "../utils/constants";
+} from "../utils/consts";
 
 const initialState = {
     activeInputID: '1',

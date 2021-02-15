@@ -1,3 +1,16 @@
-.title {
-  color: red;
+.mainPage {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  header{
+    flex-grow: 0;
+  }
+
+  main {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

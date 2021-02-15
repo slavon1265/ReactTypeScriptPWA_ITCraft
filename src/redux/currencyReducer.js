@@ -4,7 +4,7 @@ import {
     SET_ACTIVE_INPUT_VALUE, SET_ALL_RATES,
     SET_EXCHANGE_CURRENCY,
     SET_RATIO
-} from "../utils/constants";
+} from "../utils/consts";
 
 const initialState = {
     activeCurrency: 'USD',

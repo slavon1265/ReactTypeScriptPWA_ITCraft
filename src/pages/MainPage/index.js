@@ -1,13 +1,14 @@
-import React, {useEffect} from 'react'
+import React, {useContext, useEffect} from 'react'
 import s from './styles.module.scss'
 import CurrencyDashboard from "../../components/CurrencyDashboard";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchAllCurrenciesRates, fetchCurrenciesRatio} from "../../redux/asyncActions/currencies";
+import Header from "../../components/Header";
+import Loader from "../../components/Loader";
+import {Context} from "../../index";
+import {useAuthState} from "react-firebase-hooks/auth";
 
 export default function MainPage() {
-
-    const allRates = useSelector(state => state.allRates);
-
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -15,8 +16,10 @@ export default function MainPage() {
     }, [])
 
     return (
-        <div>
-            <header><h1 className={s.title}>Main Page</h1></header>
+        <div className={s.mainPage}>
+            <header>
+                <Header />
+            </header>
             <main>
                 <CurrencyDashboard />
             </main>
