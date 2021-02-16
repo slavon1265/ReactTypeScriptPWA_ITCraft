@@ -1,0 +1,11 @@
+.selectWidget{
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-top: 5px;
+  background: rgba(255,255,255, .35);
+  box-shadow: rgba(255,255,255, .3) 1px 1px 3px 1px;
+}
+
+.activeWidget {
+  background: rgba(255, 255, 255, 0.8);
+}

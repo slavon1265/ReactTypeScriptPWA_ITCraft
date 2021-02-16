@@ -4,26 +4,65 @@ import CurrencyService from "../../services/currencyService";
 import {useDispatch, useSelector} from "react-redux";
 import PassiveSelectWidget from "./PassiveInput";
 import ActiveSelectWidget from "./ActiveInput";
+import {setActiveInputIdAction, setActiveInputValueAction} from "../../redux/inputsReducer";
+import {setActiveCurrencyAction} from "../../redux/currencyReducer";
+import {addSelectsValueAction} from "../../redux/selectsReducer";
 
 
 const CurrencyDashboard = () => {
+    const dispatch = useDispatch();
+
     const currenciesRates = useSelector(({currency}) => currency.allRates)
     const storeActiveId = useSelector(({inputs}) => inputs.activeInputID);
     const activeValue = useSelector(({inputs}) => inputs.activeInputValue);
     const activeCurrency = useSelector(({currency}) => currency.activeCurrency);
+    const selectsValues = useSelector(({selects}) => selects.selectsValues);
+
+    const widgetProps = {
+        activeValue,
+        selectsValues,
+        rates: currenciesRates,
+        dispatchers: {
+            setSelectElementValue(currentSelect){
+                dispatch(addSelectsValueAction(currentSelect))
+            }
+        }
+    }
+
+    const activeWidgetProps = {
+        ...widgetProps,
+        dispatchers: {
+            ...widgetProps.dispatchers,
+
+            setInputValue(value){
+                dispatch(setActiveInputValueAction(value))
+            },
+            setActiveCurrency(value){
+                dispatch(setActiveCurrencyAction(value))
+            },
+        }
+    }
 
 
-    // const [activeId, setActiveId] = useState(storeActiveId);
+    const passiveWidgetProps = {
+        ...widgetProps,
+        activeCurrency,
+        dispatchers: {
+            ...widgetProps.dispatchers,
 
+            setCurrentWidgetAsActive(inputID, inputValue, selectValue){
+                dispatch(setActiveInputIdAction(inputID))
+                dispatch(setActiveInputValueAction(inputValue))
+                dispatch(setActiveCurrencyAction(selectValue))
+            },
 
+        }
+    }
 
-    useEffect(() => {
-        console.log('store  inputs Id changed')
-    }, [storeActiveId])
 
     return (
         <div className={s.currenciesBlock}>
-            {new Array(4).fill(null).map((_,i) => {
+            {new Array(10).fill(null).map((_,i) => {
                 const inputID = `${i+1}`;
 
                 return storeActiveId == inputID
@@ -32,18 +71,16 @@ const CurrencyDashboard = () => {
 
                     <ActiveSelectWidget
                         key={i}
-                        rates={currenciesRates}
                         inputID={inputID}
+                        properties={activeWidgetProps}
                     />
 
                     :
 
                     <PassiveSelectWidget
                         key={i}
-                        rates={currenciesRates}
                         inputID={inputID}
-                        activeValue={activeValue}
-                        activeCurrency={activeCurrency}
+                        properties={passiveWidgetProps}
                     />
 
 

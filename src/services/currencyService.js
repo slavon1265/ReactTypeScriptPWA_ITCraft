@@ -8,17 +8,25 @@ class CurrencyService {
     }
 
     async getAllRatesByCurrency(currency=this.activeCurrency) {
-        this.setCurrencies(currency);
-        const {data} = await axios.get(this.baseURL);
-        return {...data, rates: this.mapRatesToArray(data.rates)}
+        try{
+            this.setCurrencies(currency);
+            const {data} = await axios.get(this.baseURL);
+            return {...data, rates: this.mapRatesToArray(data.rates)}
+        } catch (e) {
+            throw new Error(e)
+        }
     }
 
     async getCurrencyRatio(activeCurrency, exchangeCurrency) {
-        this.setCurrencies(activeCurrency, exchangeCurrency);
-        const url = this.baseURL + `&symbols=${exchangeCurrency}`
-        const {data} = await axios.get(url);
-        const ratio = data.rates[exchangeCurrency]
-        return ratio
+        try {
+            this.setCurrencies(activeCurrency, exchangeCurrency);
+            const url = this.baseURL + `&symbols=${exchangeCurrency}`
+            const {data} = await axios.get(url);
+            const ratio = data.rates[exchangeCurrency]
+            return ratio
+        } catch (e) {
+            throw new Error(e)
+        }
     }
 
     setCurrencies(active, exchange=this.exchangeCurrency){

@@ -1,24 +1,40 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {setActiveInputIdAction, setActiveInputValueAction} from "../../../redux/inputsReducer";
 import CurrencyService from "../../../services/currencyService";
-import {setActiveCurrencyAction} from "../../../redux/currencyReducer";
-import {addSelectsValueAction} from "../../../redux/selectsReducer";
-import {MenuItem, Select, TextField} from "@material-ui/core";
+import {parseNumToStr, parseStrToNum} from "../../../utils/functions";
+import SelectInputComponent from "../SelectInputComponent";
 
 const currencyService = new CurrencyService();
 
-const PassiveSelectWidget = ({rates, inputID, activeCurrency, activeValue}) => {
+const PassiveSelectWidget = ({inputID, properties}) => {
 
-    const dispatch = useDispatch();
+    const {
+        rates,
+        activeValue,
+        activeCurrency,
+        selectsValues,
+        dispatchers: {
+            setCurrentWidgetAsActive,
+            setSelectElementValue
+        }
+    } = properties;
 
-    const selectsValues = useSelector(({selects}) => selects.selectsValues)
     const [selectValue, setSelectValue] = useState(selectsValues[inputID] || 'USD');
     const [ratio, setRatio] = useState(1);
     const [inputValue, setInputValue] = useState(activeValue * ratio);
 
+
+    const setCurrentInputValueByRatio = (ratio, activeValue) => {
+        const parsedStr = parseNumToStr(activeValue * ratio);
+
+        setRatio(ratio);
+        setInputValue(parsedStr)
+    }
+
+    //-------------HANDLERS
+
     const inputChangeHandler = ({target}) => {
-        setInputValue(target.value)
+        const parsedNumber = parseStrToNum(target.value)
+        setInputValue(parsedNumber);
     }
 
     const selectChangeHandler = ({target}) => {
@@ -26,49 +42,48 @@ const PassiveSelectWidget = ({rates, inputID, activeCurrency, activeValue}) => {
     }
 
     const inputBlurHandler = () => {
-        if (activeValue * ratio !== inputValue) {
-            dispatch(setActiveInputIdAction(inputID))
-            dispatch(setActiveInputValueAction(inputValue))
-            dispatch(setActiveCurrencyAction(selectValue))
+        const inputValueChanged = activeValue * ratio !== parseStrToNum(inputValue);
+
+        if (inputValueChanged) {
+            setCurrentWidgetAsActive(inputID, inputValue, selectValue)
         }
-    }
-
-    const inputClickHandler = ({target}) => {
-
     }
 
     useEffect(async () => {
         try{
             const ratio = await currencyService.getCurrencyRatio(activeCurrency, selectValue);
-            setRatio(ratio);
-            setInputValue(activeValue * ratio)
+            setCurrentInputValueByRatio(ratio, activeValue)
         } catch (e) {
-
         }
 
-    }, [selectValue, activeValue, activeCurrency])
+    }, [selectValue, activeCurrency]);
 
     useEffect(() => {
-        dispatch(addSelectsValueAction({[inputID]:selectValue}))
+        setCurrentInputValueByRatio(ratio, activeValue)
+    }, [activeValue])
+
+    useEffect(() => {
+        setSelectElementValue({[inputID]:selectValue})
     }, [selectValue])
 
     return (
-        <div>
-            <Select name="" id="" value={selectValue} onChange={selectChangeHandler}>
-                {
-                    rates.map((r, i) => {
-                        return <MenuItem key={i} value={r.name}>{r.name}</MenuItem>
-                    })
-                }
-            </Select>
-            <TextField
-                type="text"
-                onChange={inputChangeHandler}
-                onClick={inputClickHandler}
-                value={inputValue || (activeValue * ratio) || 'Sorry this currency do not working=('}
-                onBlur={inputBlurHandler}
-            />
-        </div>
+        <SelectInputComponent properties = {
+            {
+                selectValue,
+                rates,
+                inputValue,
+                activeValue,
+                ratio,
+                isActive: false,
+                handlers: {
+                    selectChangeHandler,
+                    inputChangeHandler,
+                    inputBlurHandler
+                },
+            }
+        }
+        />
+
     );
 };
 

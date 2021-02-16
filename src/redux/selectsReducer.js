@@ -6,7 +6,9 @@ import {
 } from "../utils/consts";
 
 const initialState = {
-    selectsValues: {}
+    selectsValues: {
+
+    }
 }
 
 export default (state= initialState, action) => {
