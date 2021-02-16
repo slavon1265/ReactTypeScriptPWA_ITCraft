@@ -7,6 +7,8 @@ import Header from "../../components/Header";
 import Loader from "../../components/Loader";
 import {Context} from "../../index";
 import {useAuthState} from "react-firebase-hooks/auth";
+import CurrencyController from "../../components/CurrencyController";
+import {Box, Grid} from "@material-ui/core";
 
 export default function MainPage() {
     const dispatch = useDispatch()
@@ -20,9 +22,17 @@ export default function MainPage() {
             <header>
                 <Header />
             </header>
-            <main>
-                <CurrencyDashboard />
-            </main>
+            <Box flexGrow={1}>
+                <Grid container>
+                    <Box></Box>
+                    <Grid>
+                        <CurrencyController />
+                    </Grid>
+                    <Grid>
+                        <CurrencyDashboard />
+                    </Grid>
+                </Grid>
+            </Box>
         </div>
     )
 }
