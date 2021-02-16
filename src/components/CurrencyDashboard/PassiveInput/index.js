@@ -32,14 +32,12 @@ const PassiveSelectWidget = ({inputID, properties}) => {
 
     //-------------HANDLERS
 
-    const inputChangeHandler = ({target}) => {
-        const parsedNumber = parseStrToNum(target.value)
+    const inputChangeHandler = ({ target: {value: inputValue} }) => {
+        const parsedNumber = parseStrToNum(inputValue)
         setInputValue(parsedNumber);
-    }
+    };
 
-    const selectChangeHandler = ({target}) => {
-        setSelectValue(target.value);
-    }
+    const selectChangeHandler = ({target: {value: selectValue}}) => { setSelectValue(selectValue) };
 
     const inputBlurHandler = () => {
         const inputValueChanged = activeValue * ratio !== parseStrToNum(inputValue);
@@ -47,7 +45,7 @@ const PassiveSelectWidget = ({inputID, properties}) => {
         if (inputValueChanged) {
             setCurrentWidgetAsActive(inputID, inputValue, selectValue)
         }
-    }
+    };
 
     useEffect(async () => {
         try{

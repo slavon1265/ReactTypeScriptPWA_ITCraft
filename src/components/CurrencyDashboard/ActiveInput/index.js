@@ -15,13 +15,10 @@ const ActiveCurrencyInput = ({inputID, properties}) => {
 
     const [selectValue, setSelectValue] = useState(selectsValues[inputID] || 'USD');
 
-    const inputChangeHandler = (e) => {
-        const inputValue = e.target.value;
-        setInputValue(inputValue);
-    }
+    const inputChangeHandler = ({ target: {value : inputValue} }) => { setInputValue(inputValue) };
 
-    const selectChangeHandler = (e) => {
-        const selectValue = e.target.value;
+
+    const selectChangeHandler = ({ target: {value: selectValue} }) => {
         setSelectValue(selectValue);
         setActiveCurrency(selectValue);
     }

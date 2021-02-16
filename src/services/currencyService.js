@@ -2,15 +2,13 @@ const axios = require("axios");
 
 class CurrencyService {
     constructor() {
-        this.activeCurrency = 'USD';
-        this.exchangeCurrency = 'EUR';
-        this.baseURL = `https://api.exchangeratesapi.io/latest?base=${this.activeCurrency}`;
+        this.baseURL = `https://api.exchangeratesapi.io`;
     }
 
-    async getAllRatesByCurrency(currency=this.activeCurrency) {
+    async getAllRatesByCurrency(currency) {
         try{
-            this.setCurrencies(currency);
-            const {data} = await axios.get(this.baseURL);
+            const url = this.baseURL + `/latest?base=${currency}`
+            const {data} = await axios.get(url);
             return {...data, rates: this.mapRatesToArray(data.rates)}
         } catch (e) {
             throw new Error(e)
@@ -19,20 +17,13 @@ class CurrencyService {
 
     async getCurrencyRatio(activeCurrency, exchangeCurrency) {
         try {
-            this.setCurrencies(activeCurrency, exchangeCurrency);
-            const url = this.baseURL + `&symbols=${exchangeCurrency}`
+            const url = this.baseURL + `/latest?base=${activeCurrency}&symbols=${exchangeCurrency}`
             const {data} = await axios.get(url);
             const ratio = data.rates[exchangeCurrency]
             return ratio
         } catch (e) {
             throw new Error(e)
         }
-    }
-
-    setCurrencies(active, exchange=this.exchangeCurrency){
-        this.activeCurrency = active;
-        this.exchangeCurrency = exchange;
-        this.baseURL = `https://api.exchangeratesapi.io/latest?base=${this.activeCurrency}`;
     }
 
     mapRatesToArray(ratesObj) {
