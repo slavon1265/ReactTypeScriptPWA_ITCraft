@@ -2,11 +2,8 @@ import React, {useContext, useEffect} from 'react'
 import s from './styles.module.scss'
 import CurrencyDashboard from "../../components/CurrencyDashboard";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchAllCurrenciesRates, fetchCurrenciesRatio} from "../../redux/asyncActions/currencies";
+import {fetchAllCurrenciesRates, fetchInitialCurrenciesRatesForFilters} from "../../redux/asyncActions/currencies";
 import Header from "../../components/Header";
-import Loader from "../../components/Loader";
-import {Context} from "../../index";
-import {useAuthState} from "react-firebase-hooks/auth";
 import CurrencyController from "../../components/CurrencyController";
 import {Box, Grid} from "@material-ui/core";
 
@@ -15,6 +12,7 @@ export default function MainPage() {
 
     useEffect(() => {
         dispatch(fetchAllCurrenciesRates())
+        dispatch(fetchInitialCurrenciesRatesForFilters())
     }, [])
 
     return (
@@ -22,13 +20,12 @@ export default function MainPage() {
             <header>
                 <Header />
             </header>
-            <Box flexGrow={1}>
-                <Grid container>
-                    <Box></Box>
-                    <Grid>
+            <Box flexGrow={1} p={1} style={{background:"#f6f6ff"}}>
+                <Grid container spacing={2} direction={"column"} >
+                    <Grid item>
                         <CurrencyController />
                     </Grid>
-                    <Grid>
+                    <Grid item sm={2} style={{margin: "auto"}}>
                         <CurrencyDashboard />
                     </Grid>
                 </Grid>

@@ -5,7 +5,7 @@ import SelectInputComponent from "../SelectInputComponent";
 
 const currencyService = new CurrencyService();
 
-const PassiveSelectWidget = ({inputID, properties}) => {
+const PassiveSelectWidget = ({inputID, properties, initialSelectValue}) => {
 
     const {
         rates,
@@ -18,7 +18,7 @@ const PassiveSelectWidget = ({inputID, properties}) => {
         }
     } = properties;
 
-    const [selectValue, setSelectValue] = useState(selectsValues[inputID] || 'USD');
+    const [selectValue, setSelectValue] = useState(selectsValues[inputID] || initialSelectValue);
     const [ratio, setRatio] = useState(1);
     const [inputValue, setInputValue] = useState(activeValue * ratio);
 
@@ -39,6 +39,7 @@ const PassiveSelectWidget = ({inputID, properties}) => {
 
     const selectChangeHandler = ({target}) => {
         setSelectValue(target.value);
+        setSelectElementValue({[inputID]:target.value})
     }
 
     const inputBlurHandler = () => {
@@ -62,9 +63,10 @@ const PassiveSelectWidget = ({inputID, properties}) => {
         setCurrentInputValueByRatio(ratio, activeValue)
     }, [activeValue])
 
-    useEffect(() => {
-        setSelectElementValue({[inputID]:selectValue})
-    }, [selectValue])
+    // useEffect(() => {
+    //     if (!!selectValue) {
+    //     }
+    // }, [selectValue])
 
     return (
         <SelectInputComponent properties = {

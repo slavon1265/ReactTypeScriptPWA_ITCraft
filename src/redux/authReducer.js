@@ -3,7 +3,7 @@ import {
 } from "../utils/consts";
 
 const initialState = {
-    authType: 'login'
+    authType: 'signIn'
 }
 
 export default (state= initialState, action) => {

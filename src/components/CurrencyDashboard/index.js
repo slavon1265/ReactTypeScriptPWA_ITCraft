@@ -17,6 +17,7 @@ const CurrencyDashboard = () => {
     const activeValue = useSelector(({inputs}) => inputs.activeInputValue);
     const activeCurrency = useSelector(({currency}) => currency.activeCurrency);
     const selectsValues = useSelector(({selects}) => selects.selectsValues);
+    const activeRates = useSelector(({currencyFilters}) => currencyFilters.activeRates)
 
     const widgetProps = {
         activeValue,
@@ -62,7 +63,11 @@ const CurrencyDashboard = () => {
 
     return (
         <div className={s.currenciesBlock}>
-            {new Array(10).fill(null).map((_,i) => {
+            {activeRates.length 
+            
+            ? 
+
+            activeRates.map((rate,i) => {
                 const inputID = `${i+1}`;
 
                 return storeActiveId == inputID
@@ -73,6 +78,7 @@ const CurrencyDashboard = () => {
                         key={i}
                         inputID={inputID}
                         properties={activeWidgetProps}
+                        initialSelectValue={rate}
                     />
 
                     :
@@ -81,10 +87,16 @@ const CurrencyDashboard = () => {
                         key={i}
                         inputID={inputID}
                         properties={passiveWidgetProps}
+                        initialSelectValue={rate}
                     />
 
 
-            })}
+            })
+            
+            :
+
+            <div>Please add new currencies</div>
+        }
         </div>
     );
 };

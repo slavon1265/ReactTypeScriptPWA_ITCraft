@@ -1,0 +1,11 @@
+@keyframes rootAppear {
+  0%{
+    transform: translateX(500px);
+  }
+  80%{
+    transform: translateX(-50px);
+  }
+  100%{
+    transform: translateX(0px);
+  }
+}

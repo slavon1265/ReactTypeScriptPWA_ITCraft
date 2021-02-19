@@ -1,0 +1,13 @@
+.filterBar {
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 5px 15px;
+
+  .chipContainer{
+
+    .chip {
+      margin: 2px 5px;
+    }
+  }
+}

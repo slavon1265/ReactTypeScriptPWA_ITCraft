@@ -1,7 +1,6 @@
 import {
     SET_ACTIVE_CURRENCY,
-    SET_ACTIVE_INPUT_ID,
-    SET_ACTIVE_INPUT_VALUE, SET_ALL_RATES,
+    SET_ALL_RATES,
     SET_EXCHANGE_CURRENCY,
     SET_RATIO
 } from "../utils/consts";

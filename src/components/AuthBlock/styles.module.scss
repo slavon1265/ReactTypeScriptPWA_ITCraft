@@ -1,0 +1,45 @@
+.authContainer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  .authBox {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    &__title {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    &__logo {
+      margin-right: 10px;
+      height: 30px;
+    }
+
+    &__btn {
+      margin: 10px 0;
+      display: flex;
+      justify-content: space-between;
+    }
+
+  }
+
+  .loginBox {
+
+  }
+
+  .signInBox {
+
+  }
+}
+
+
+.authForm {
+  transform: translateX(-400px);
+}
+

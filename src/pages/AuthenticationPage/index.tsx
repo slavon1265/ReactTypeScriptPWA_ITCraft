@@ -2,54 +2,40 @@ import React, {useCallback, useContext, useState} from 'react';
 import Header from "../../components/Header";
 import s from './styles.module.scss'
 import {useDispatch, useSelector} from "react-redux";
-import classNames from 'classnames';
-import googleIcon from '../../assets/icons/google_icon.svg'
-import {Paper, Button, Typography, Icon} from '@material-ui/core';
 import {Context} from "../../index";
-import firebase from "firebase";
+import { AuthService } from './../../services/authService';
+import AuthBlock from '../../components/AuthBlock';
+import SignInSideForm from "../../components/SignInSideComponent";
+import {setAuthType} from "../../redux/authReducer";
 
-
+const authService = new AuthService();
 
 const AuthenticationPage = () => {
     // @ts-ignore
     const authType = useSelector(({auth}) => auth.authType);
     // @ts-ignore
     const { auth } = useContext(Context);
+    const dispatch = useDispatch();
 
-    const login = async () => {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        const user = await auth.signInWithPopup(provider);
+    const dispatchAuthType = (payload: string): void => {
+        dispatch( setAuthType(payload) );
     }
+
+    const [authFormVisible, setAuthFormVisible] = useState(false);
 
 
     // @ts-ignore
     return (
         <div className={s.authPage}>
             <Header />
-            <div className={s.authContainer}>
-                {
-                    authType === 'login' ?
-                        (
-                            <Paper className={classNames(s.authBox, s.loginBox)}>
-                                <Typography className={classNames(s.authBox__title)}>Login Form</Typography>
-                                <Button variant="outlined" color="secondary" onClick={login}>
-                                    <img className={s.authBox__googleLogo} src={googleIcon} alt=""/>
-                                    <span>Login with Google</span>
-                                </Button>
-                            </Paper>
-                        )
-                        :
-                        (
-                            <Paper className={classNames(s.authBox, s.loginBox)}>
-                                <Typography className={classNames(s.authBox__title)}>SignIn Form</Typography>
-                                <Button variant="outlined" color="secondary" onClick={login}>
-                                    <img className={s.authBox__googleLogo} src={googleIcon} alt=""/>
-                                    <span>Sign-In with Google</span>
-                                </Button>
-                            </Paper>
-                        )
-                }
-            </div>
+            <AuthBlock
+                authType={authType}
+                authService={authService}
+                authFormVisible={authFormVisible}
+                setAuthFormVisible={setAuthFormVisible}
+                authState={auth}
+            />
+            <SignInSideForm authType={authType} signIn={authService.signUpWithEmail} isVisible={authFormVisible} setAuthType={dispatchAuthType}/>
         </div>
     );
 };

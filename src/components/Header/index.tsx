@@ -44,10 +44,10 @@ const Header = () => {
 
     const btnClickHandler = (btnValue: string) => {
 
-        if (btnValue === 'login') {
-            dispatch(setAuthType('login'))
-        } else if (btnValue === 'signIn') {
+        if (btnValue === 'signIn') {
             dispatch(setAuthType('signIn'))
+        } else if (btnValue === 'signUp') {
+            dispatch(setAuthType('signUp'))
         }
 
     }
@@ -57,7 +57,7 @@ const Header = () => {
     // @ts-ignore
     return (
         <div className={classes.root}>
-            <AppBar position="static" color="secondary">
+            <AppBar position="static" color="primary">
                 <Toolbar>
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon />
@@ -74,10 +74,10 @@ const Header = () => {
                             (
                                 <>
                                     <NavLink to={AUTH_ROUTE}>
-                                        <Button color={authType ==='login' ? 'primary' : 'inherit'} value="login" onClick={() => btnClickHandler('login')}>Login</Button>
+                                        <Button color={authType ==='signIn' ? 'secondary' : 'inherit'} value="signIn" onClick={() => btnClickHandler('signIn')}>Sign-In</Button>
                                     </NavLink>
                                     <NavLink to={AUTH_ROUTE}>
-                                        <Button color={authType ==='signIn' ? 'primary' : 'inherit'} value="signIn" onClick={() => btnClickHandler('signIn')}>Sign-In</Button>
+                                        <Button color={authType ==='signUp' ? 'secondary' : 'inherit'} value="signUp" onClick={() => btnClickHandler('signUp')}>Sign-Up</Button>
                                     </NavLink>
                                 </>
                             )

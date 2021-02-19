@@ -1,5 +1,4 @@
 import {AUTH_ROUTE, ERROR_ROUTE, MAIN_PAGE_ROUTE} from "./utils/consts";
-import Login from "./components/Login";
 import MainPage from "./pages/MainPage";
 import ErrorPage from "./pages/ErrorPage";
 import AuthenticationPage from "./pages/AuthenticationPage";
