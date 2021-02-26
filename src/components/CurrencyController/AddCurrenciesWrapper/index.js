@@ -6,11 +6,16 @@ import classNames from "classnames";
 
 const AddCurrenciesWrapper = ({isVisible, setIsVisible, rates, addActiveRate, setAllRatesAsActive}) => {
 
-    const parseRates = (ratesNamesArr) => {
-        return ratesNamesArr.map(r => {
-           return <Chip label={r} className={s.chipElement} onClick={({target}) => addActiveRate(target.innerText)} />
-        })
-    }
+    const parseRates = (ratesNamesArr) => ratesNamesArr.map((r, i) => (
+        <Chip
+            key={i}
+            label={r}
+            className={s.chipElement}
+            onClick={({target}) => addActiveRate(target.innerText)}
+        />)
+    )
+
+
 
     return (
         <Box className={classNames(s.modalWrapper, !isVisible && s.hide)} onClick={e => { e.stopPropagation(); e.currentTarget === e.target && setIsVisible(false)}}>

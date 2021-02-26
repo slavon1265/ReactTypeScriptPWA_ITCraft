@@ -8,7 +8,7 @@ const ErrorPage = () => {
             <h1>404 Error page, sorry =(</h1>
             <h2 style={{color:'blue', cursor:'pointer'}}>
                 <Link to={MAIN_PAGE_ROUTE} >
-                     Return Home
+                     <span>Return Home</span>
                 </Link>
             </h2>
         </div>

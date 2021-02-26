@@ -1,0 +1,29 @@
+
+.newsContainer{
+  min-width: 200px;
+  min-height: 100px;
+  background: rgba(91, 164, 255, 0.8);
+  opacity: 0.95;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: rgba(99,99,99,0.15) 2px 2px 2px 3px;
+  color: white;
+  position: relative;
+
+  &__title{
+    text-align: center;
+    font-family: Corbel;
+    padding: 10px;
+    background: linear-gradient(90deg, rgba(109,102,212,0) 25%, rgba(0,0,144,0.38139005602240894) 50%, rgba(65,81,201,0) 75%);
+    border-radius: 20px;
+    position: sticky;
+    width: 100%;
+    left: 0;
+
+    &__activeRate{
+      font-family: Arial;
+      font-weight: 700;
+      text-decoration-line: underline;
+    }
+  }
+}

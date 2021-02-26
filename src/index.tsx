@@ -5,6 +5,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import firebase from "firebase";
 import 'firebase/firestore'
 import 'firebase/auth'
+import {IContext} from "./types/ContextType";
 // import reportWebVitals from './reportWebVitals';
 
 
@@ -19,9 +20,16 @@ firebase.initializeApp({
     measurementId: "G-2L2P9C5861"
 });
 
-export const Context = createContext({});
 
 const auth = firebase.auth();
+
+const initialContext: IContext = {auth, firebase}
+
+export const Context = createContext(initialContext);
+
+
+
+
 
 ReactDOM.render(
   <React.StrictMode>

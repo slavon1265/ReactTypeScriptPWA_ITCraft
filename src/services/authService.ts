@@ -1,19 +1,21 @@
 import firebase  from 'firebase';
+import {IAuth, ISignData} from "../types/services/authServicesTypes";
 
 
 export class AuthService {
 
-    async loginWithGoogle(auth) {
+    public async loginWithGoogle(auth: IAuth) {
         try {
             const provider = new firebase.auth.GoogleAuthProvider();
             const user = await auth.signInWithPopup(provider);
         } catch (e) {
             const errorMaessage = e.message;
-            alert(e.message)
+            alert(errorMaessage)
         }
     }
 
-    signInWithEmailPassword (data) {
+    public signInWithEmailPassword (data: ISignData) {
+        console.log(data)
         const {email, password} = data;
         
         firebase.auth().signInWithEmailAndPassword(email, password)
@@ -24,12 +26,12 @@ export class AuthService {
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            alert(errorMessage)
+            alert(errorMessage + `\nCode: ${errorCode}`)
 
           });
       }
 
-    signUpWithEmail(data) {
+    public signUpWithEmail(data: ISignData) {
         const {email, password} = data;
         
         firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -39,8 +41,8 @@ export class AuthService {
           })
           .catch((error) => {
 
-            var errorCode = error.code;
-            var errorMessage = error.message;
+            const errorCode = error.code;
+            const errorMessage = error.message;
             alert(errorMessage)
 
           });

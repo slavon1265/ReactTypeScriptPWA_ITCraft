@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import CurrencyService from "../../../services/currencyService";
+import CurrencyService from "../../../services/currencyService.ts";
 import {parseNumToStr, parseStrToNum} from "../../../utils/functions";
 import SelectInputComponent from "../SelectInputComponent";
 
@@ -22,7 +22,6 @@ const PassiveSelectWidget = ({inputID, properties, initialSelectValue}) => {
     const [ratio, setRatio] = useState(1);
     const [inputValue, setInputValue] = useState(activeValue * ratio);
 
-
     const setCurrentInputValueByRatio = (ratio, activeValue) => {
         const parsedStr = parseNumToStr(activeValue * ratio);
 
@@ -32,9 +31,14 @@ const PassiveSelectWidget = ({inputID, properties, initialSelectValue}) => {
 
     //-------------HANDLERS
 
-    const inputChangeHandler = ({target}) => {
-        const parsedNumber = parseStrToNum(target.value)
+    const inputFocusHandler = ({target}) => {
+        const parsedNumber = parseStrToNum(target.value);
+        console.log('parsedNumber on Input Event:', parsedNumber)
         setInputValue(parsedNumber);
+    }
+
+    const inputChangeHandler = ({target}) => {
+        setInputValue(target.value)
     }
 
     const selectChangeHandler = ({target}) => {
@@ -43,7 +47,16 @@ const PassiveSelectWidget = ({inputID, properties, initialSelectValue}) => {
     }
 
     const inputBlurHandler = () => {
-        const inputValueChanged = activeValue * ratio !== parseStrToNum(inputValue);
+        const inputValueChanged = (activeValue * ratio).toFixed(2) != inputValue;
+
+        // console.log(`
+        //     activeValue=${activeValue}\n
+        //     ratio=${ratio}\n
+        //     activeValue * ratio=${(activeValue * ratio).toFixed(2)}\n
+        //     inputValue=${inputValue}\n
+        //     parseStrToNum(inputValue)=${parseStrToNum(inputValue)}`)
+        //
+        // console.log(inputValueChanged)
 
         if (inputValueChanged) {
             setCurrentWidgetAsActive(inputID, inputValue, selectValue)
@@ -55,6 +68,7 @@ const PassiveSelectWidget = ({inputID, properties, initialSelectValue}) => {
             const ratio = await currencyService.getCurrencyRatio(activeCurrency, selectValue);
             setCurrentInputValueByRatio(ratio, activeValue)
         } catch (e) {
+            console.error(e)
         }
 
     }, [selectValue, activeCurrency]);
@@ -62,11 +76,6 @@ const PassiveSelectWidget = ({inputID, properties, initialSelectValue}) => {
     useEffect(() => {
         setCurrentInputValueByRatio(ratio, activeValue)
     }, [activeValue])
-
-    // useEffect(() => {
-    //     if (!!selectValue) {
-    //     }
-    // }, [selectValue])
 
     return (
         <SelectInputComponent properties = {
@@ -80,7 +89,8 @@ const PassiveSelectWidget = ({inputID, properties, initialSelectValue}) => {
                 handlers: {
                     selectChangeHandler,
                     inputChangeHandler,
-                    inputBlurHandler
+                    inputBlurHandler,
+                    inputFocusHandler
                 },
             }
         }

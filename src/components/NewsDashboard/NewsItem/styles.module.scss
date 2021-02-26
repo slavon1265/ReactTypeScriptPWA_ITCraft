@@ -1,0 +1,54 @@
+.newsItem{
+  border-radius: 2px;
+  padding: 5px 10px;
+  margin-top: 10px;
+  display: flex;
+  background: rgba(255, 255, 255, 0.20);
+  box-shadow: rgba(255,255,255, .3) 1px 1px 3px 1px;
+  color: black;
+  font-family: "Candara Light";
+
+  &__title{
+    transition: .5s;
+
+    &:hover{
+      color: #515151;
+      text-decoration-line: underline;
+    }
+  }
+
+  .feedBlock {
+
+    margin-top: -20px;
+    margin-bottom: 10px;
+    font-family: Calibri;
+
+    &__link{
+      font-size: 0.8rem;
+      color: #ffffff;
+      text-decoration-line: underline;
+    }
+
+    &__publish{
+      font-size: 0.7rem;
+    }
+  }
+
+
+  .newsItem__imgBlock{
+    min-width: 150px;
+    max-width: 150px;
+    height: 150px;
+    display: flex;
+    margin-right: 15px;
+
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+
+  }
+
+}

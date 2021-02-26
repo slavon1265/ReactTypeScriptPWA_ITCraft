@@ -15,8 +15,8 @@ const SelectInputComponent = ({properties}) => {
         handlers: {
             selectChangeHandler,
             inputChangeHandler,
-            inputClickHandler,
-            inputBlurHandler
+            inputBlurHandler,
+            inputFocusHandler
         },
     } = properties;
 
@@ -34,14 +34,16 @@ const SelectInputComponent = ({properties}) => {
                     type={'text'}
                     onChange={inputChangeHandler}
                     value={activeValue}
+                    className={s.inputElement}
                 />
                 :
                 <TextField
                     type="text"
+                    className={s.inputElement}
                     onChange={inputChangeHandler}
-                    onClick={inputClickHandler}
-                    value={inputValue || parseNumToStr((activeValue * ratio)) || 'Sorry this currency do not working=('}
+                    onFocus={inputFocusHandler}
                     onBlur={inputBlurHandler}
+                    value={inputValue || parseNumToStr((activeValue * ratio)) || 'Sorry this currency do not working=('}
                 />
             }
         </div>

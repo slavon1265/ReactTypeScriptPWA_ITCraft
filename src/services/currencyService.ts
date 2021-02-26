@@ -1,6 +1,13 @@
+import {IRatesObject} from "../types/services/currencyServiceTypes";
+
 const axios = require("axios");
 
 class CurrencyService {
+
+    private activeCurrency: string;
+    private exchangeCurrency: string;
+    private baseURL: string;
+
     constructor() {
         this.activeCurrency = 'USD';
         this.exchangeCurrency = 'EUR';
@@ -9,7 +16,6 @@ class CurrencyService {
 
     async getAllRatesByCurrency(currency=this.activeCurrency) {
         try{
-            this.setCurrencies(currency);
             const {data} = await axios.get(this.baseURL);
             return {...data, rates: this.mapRatesToArray(data.rates)}
         } catch (e) {
@@ -17,26 +23,20 @@ class CurrencyService {
         }
     }
 
-    async getCurrencyRatio(activeCurrency, exchangeCurrency) {
+    async getCurrencyRatio(activeCurrency: string, exchangeCurrency: string) {
         try {
-            this.setCurrencies(activeCurrency, exchangeCurrency);
             const url = this.baseURL + `&symbols=${exchangeCurrency}`
             const {data} = await axios.get(url);
-            const ratio = data.rates[exchangeCurrency]
+            const ratio: number = data.rates[exchangeCurrency]
             return ratio
         } catch (e) {
             throw new Error(e)
         }
     }
 
-    setCurrencies(active, exchange=this.exchangeCurrency){
-        this.activeCurrency = active;
-        this.exchangeCurrency = exchange;
-        this.baseURL = `https://api.exchangeratesapi.io/latest?base=${this.activeCurrency}`;
-    }
-
-    mapRatesToArray(ratesObj) {
-        return Object.keys(ratesObj).map(ratio => ({name: ratio, ratio: ratesObj[ratio]}))
+    mapRatesToArray(ratesObj: IRatesObject) {
+        const ratesArr: Array<string> = Object.keys(ratesObj);
+        return ratesArr.map(r => ({name: r, ratio: ratesObj[r]}))
     }
 }
 

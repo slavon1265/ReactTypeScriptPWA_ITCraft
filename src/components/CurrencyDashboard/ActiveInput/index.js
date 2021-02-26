@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import SelectInputComponent from "../SelectInputComponent";
 
 const ActiveCurrencyInput = ({inputID, properties, initialSelectValue}) => {
@@ -27,14 +27,8 @@ const ActiveCurrencyInput = ({inputID, properties, initialSelectValue}) => {
         setSelectElementValue({[inputID]:e.target.value})
     }
 
-    // useEffect(() => {
-    //     if (!!selectValue) {
-    //     }
-    // }, [selectValue])
-
-
     return (
-            <SelectInputComponent properties ={
+            <SelectInputComponent properties = {
                 {
                     selectValue,
                     rates,
@@ -46,7 +40,7 @@ const ActiveCurrencyInput = ({inputID, properties, initialSelectValue}) => {
                     },
                 }
             } />
-    );
+    )
 };
 
 export default ActiveCurrencyInput;

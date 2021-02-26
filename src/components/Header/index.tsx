@@ -28,8 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-// @ts-ignore
-const Header = () => {
+const Header: React.FC = () => {
 
     // @ts-ignore
     const {auth} = useContext(Context);
@@ -53,8 +52,6 @@ const Header = () => {
     }
 
 
-
-    // @ts-ignore
     return (
         <div className={classes.root}>
             <AppBar position="static" color="primary">

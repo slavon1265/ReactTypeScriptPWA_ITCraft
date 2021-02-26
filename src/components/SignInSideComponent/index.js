@@ -61,11 +61,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide({signIn, isVisible, authType, setAuthType}) {
+export default function SignInSide({authService, isVisible, authType, setAuthType}) {
   const classes = useStyles();
   const { register, handleSubmit, control } = useForm();
 
   const authTypeIsSignIn = authType === 'signIn'
+  const {signInWithEmailPassword: signIn, signUpWithEmail: signUp} = authService;
+
 
   return (
     <Transition
@@ -83,7 +85,11 @@ export default function SignInSide({signIn, isVisible, authType, setAuthType}) {
             <Typography component="h1" variant="h5">
               <span>{authType}</span>
             </Typography>
-            <form className={classes.form} noValidate onSubmit={handleSubmit(data => signIn(data))}>
+            <form
+                className={classes.form}
+                noValidate
+                onSubmit={handleSubmit(data => authTypeIsSignIn ? signIn(data) : signUp(data))}
+            >
               <TextField
                 variant="outlined"
                 margin="normal"
